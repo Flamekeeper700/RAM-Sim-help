@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SerialPort;
-
 // TODO: v we need to connect our sparkmaxes v
 /*
   import com.revrobotics.spark.SparkBase.PersistMode;
@@ -23,6 +20,8 @@ import frc.robot.Constants.DriveConstants;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 import edu.wpi.first.math.geometry.Pose2d;
+
+import org.littletonrobotics.junction.Logger;
 
 
 // Class to drive the robot over CAN
@@ -64,6 +63,7 @@ public class CANDriveSubsystem extends SubsystemBase {
       navx.getDisplacementY(),
       navx.getRotation2d()
     );
+    Logger.recordOutput("Robot Pose", pose);
   }
 
   public Pose2d getPose() {
