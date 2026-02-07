@@ -13,11 +13,13 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+
 /** Class to run the rollers over CAN */
 public class CANRollerSubsystem extends SubsystemBase {
   private final PWMSparkMax rollerMotor;
-
+private final SparkMaxConfig rollerConfig;
   public CANRollerSubsystem() {
+    rollerConfig = new SparkMaxConfig();
     // Set up the roller motor as a brushed motor
     rollerMotor = new PWMSparkMax(RollerConstants.ROLLER_MOTOR_ID);
 
@@ -30,7 +32,7 @@ public class CANRollerSubsystem extends SubsystemBase {
     // the roller behave the same as the battery
     // voltage dips. The current limit helps prevent breaker trips or burning out
     // the motor in the event the roller stalls.
-    SparkMaxConfig rollerConfig = new SparkMaxConfig();
+    
     rollerConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
     rollerConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
     //rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
