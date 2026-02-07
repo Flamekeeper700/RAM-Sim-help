@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
+
 // TODO: v we need to connect our sparkmaxes v
 /*
   import com.revrobotics.spark.SparkBase.PersistMode;
@@ -17,6 +20,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
+import edu.wpi.first.math.geometry.Pose2d;
+
 
 // Class to drive the robot over CAN
 public class CANDriveSubsystem extends SubsystemBase {
@@ -24,6 +31,8 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final PWMSparkMax leftFollower;
   private final PWMSparkMax rightLeader;
   private final PWMSparkMax rightFollower;
+  private final AHRS navx;
+  private Pose2d pose;
 
   private final DifferentialDrive drive;
 
@@ -37,6 +46,7 @@ public class CANDriveSubsystem extends SubsystemBase {
     rightLeader.addFollower(rightFollower);
     // set up differential drive class
     drive = new DifferentialDrive(leftLeader, rightLeader);
+    navx = new AHRS(NavXComType.kMXP_SPI);
 
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
@@ -49,6 +59,15 @@ public class CANDriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    pose = new Pose2d(
+      navx.getDisplacementX(),
+      navx.getDisplacementY(),
+      navx.getRotation2d()
+    );
+  }
+
+  public Pose2d getPose() {
+    return pose;
   }
 
   // sets the speed of the drive motors
